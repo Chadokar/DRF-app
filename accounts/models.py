@@ -6,7 +6,6 @@ from .manager import *
 
 
 class User(AbstractBaseUser, PermissionsMixin):
-    username = None
     email = models.EmailField(
         max_length=255, unique=True, verbose_name=_("Email Address"))
     first_name = models.CharField(max_length=100, verbose_name=_("First Name"))
@@ -29,9 +28,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     @property
     def get_full_name(self):
         return f"{self.first_name} {self.last_name}"
-
-    def tokens(self):
-        pass
 
 
 # class OneTimePassword(models.Model):
