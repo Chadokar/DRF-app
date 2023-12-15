@@ -2,7 +2,7 @@ from rest_framework import serializers
 from .models import User
 
 
-class UserRegisterSerializer(serializers.ModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(
         max_length=68, min_length=6, write_only=True)
     password2 = serializers.CharField(
@@ -11,7 +11,7 @@ class UserRegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'email', 'first_name',
-                  'last_name', 'password', 'password2']
+                  'last_name', 'last_login', 'date_joined', 'is_active', 'password', 'password2']
 
     def validate(self, attrs):
         password = attrs.get('password', '')
@@ -22,6 +22,7 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         return attrs
 
     def create(self, validated_data):
+
         user = User.objects.create_user(
             email=validated_data['email'],
             first_name=validated_data.get('first_name'),
@@ -31,3 +32,7 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         print(f"creater user : ", {user})
         # return super().create(validated_data)
         return user
+
+    # def read(self):
+    #     token =
+    #     return User.objects.filter(id = token.id)
